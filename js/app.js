@@ -1,38 +1,30 @@
-// Tu código aquí
+const form = document.querySelector('#message-form');
 
-const form = document.querySelector('#message-form')
+form.addEventListener("submit", (event)=> {
+    event.preventDefault();
+    const message = document.querySelector("#message");
+    
+    updateMessage(message.value, "update");
+    !message.value? displayError() : hideError();
+ 
+    setTimeout(()=> {
+        updateMessage(message.value);
+        hideError();
+    }, 2000);
 
-form.addEventListener('submit', function(e){
-    console.log("Información sobre el objeto event: ", e)
-    e.preventDefault() // Curioso sobre lo que hace esto? Mira como se comporta el formulario cuando haces clic en "Enviar" si esta línea está comentada. 
-
-    // Propiedad que contiene el valor actual del campo input
-    // let textToPass = form[0].value
-
-    // Forma habitual de hacerlo: accediendo al elemento INPUT, propiedad 'value'
-    textToPass = document.querySelector('#message').value
-
-    if (textToPass) {
-    document.querySelector('.message-content').textContent = textToPass
-    }
-
-    else {
-        let messageEmpty = document.querySelector('h5.feedback')
-
-        // si el .value del input es vacio, añadimos la clase 'show' 
-        // que va a modificar la propiedad display
-        messageEmpty.classList.add('show')
-        // La functión setTimout toma dos parámetros
-        // 1. El primero es una function. Esta function se va a ejecutar
-        // justo cuando hayan pasado los milisegundos indicados en el parámetro dos
-        // 2. El segundo parámetro es un entero(number) con los segundos
-        // que va esperar el script antes de ejecutar la función del primer parámetro
-        setTimeout( () => {
-            //Eliminamos la clase que nos permitia mostrar el elemento
-            messageEmpty.classList.remove('show')
-        }, 2000);
-
-    }
-    console.log("Hemos hecho clic en el botón de submit!")
-
+    message.value = ""; 
 })
+
+
+function updateMessage(msg, type){
+    const lastMessage = document.querySelector(".message-content");
+    type === "update"? lastMessage.textContent = msg : "";
+}
+
+function displayError(){
+    document.querySelector('.feedback').style.display = "block";
+}
+
+function hideError(){
+    document.querySelector('.feedback').style.display = "none";
+}
